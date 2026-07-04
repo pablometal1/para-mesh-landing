@@ -82,7 +82,7 @@
                 Imágenes y modelos creados con <span class="bg-gradient-to-r from-brand to-cyan bg-clip-text text-transparent">Para-Mesh</span>.
               </h1>
               <p class="mt-7 max-w-2xl text-lg leading-8 text-slate-300 md:text-xl">
-                Agrega imágenes a la carpeta <span class="font-semibold text-white">assets/gallery/</span> y publícalas desde <span class="font-semibold text-white">assets/gallery/gallery.json</span>.
+                Agrega imágenes a la carpeta <span class="font-semibold text-white">assets/gallery/</span> del repositorio y aparecerán automáticamente en esta página.
               </p>
             </div>
           </div>
@@ -109,7 +109,7 @@
             </div>
 
             <div v-else class="rounded-2xl border border-dashed border-white/15 bg-white/[.025] p-8 text-sm leading-6 text-slate-400">
-              Todavía no hay imágenes publicadas. Agrega archivos JPG, PNG, WebP, GIF o AVIF en <span class="font-semibold text-slate-200">assets/gallery/</span> y registra cada imagen en <span class="font-semibold text-slate-200">assets/gallery/gallery.json</span>.
+              Todavía no hay imágenes publicadas. Agrega archivos JPG, PNG, WebP, GIF o AVIF en <span class="font-semibold text-slate-200">assets/gallery/</span>.
             </div>
           </div>
         </section>
@@ -226,31 +226,67 @@
         },
         methods: {
           async loadGallery() {
-            try {
-              const response = await fetch('assets/gallery/gallery.json', { cache: 'no-store' });
-              if (!response.ok) {
-                this.galleryStatus = 'empty';
-                return;
-              }
+            const metadata = await this.loadGalleryMetadata();
+            const githubImages = await this.loadGitHubGalleryImages(metadata);
+            if (githubImages.length) {
+              this.images = githubImages;
+              this.galleryStatus = 'ready';
+              return;
+            }
 
-              const images = await response.json();
-              if (!Array.isArray(images)) {
-                this.galleryStatus = 'empty';
-                return;
-              }
-
-              const normalizedImages = this.normalizeImages(images);
-              if (normalizedImages.length) {
-                this.images = normalizedImages;
-                this.galleryStatus = 'ready';
-                return;
-              }
-            } catch (error) {
-              this.galleryStatus = 'empty';
+            const jsonImages = this.normalizeImages([...metadata.values()]);
+            if (jsonImages.length) {
+              this.images = jsonImages;
+              this.galleryStatus = 'ready';
               return;
             }
 
             this.galleryStatus = 'empty';
+          },
+          async loadGalleryMetadata() {
+            try {
+              const response = await fetch('assets/gallery/gallery.json', { cache: 'no-store' });
+              if (!response.ok) return new Map();
+
+              const images = await response.json();
+              if (!Array.isArray(images)) return new Map();
+
+              return new Map(
+                this.normalizeImages(images).map((image) => [
+                  this.getFilenameKey(image.src),
+                  image
+                ])
+              );
+            } catch (error) {
+              return new Map();
+            }
+          },
+          async loadGitHubGalleryImages(metadata) {
+            try {
+              const apiUrl = 'https://api.github.com/repos/pablometal1/para-mesh-landing/contents/assets/gallery?ref=main';
+              const response = await fetch(apiUrl, { cache: 'no-store' });
+              if (!response.ok) return [];
+
+              const files = await response.json();
+              if (!Array.isArray(files)) return [];
+
+              const allowedExtensions = /\.(jpe?g|png|webp|gif|avif)$/i;
+              return files
+                .filter((file) => file.type === 'file' && allowedExtensions.test(file.name))
+                .map((file) => {
+                  const src = `assets/gallery/${encodeURIComponent(file.name)}`;
+                  const savedMetadata = metadata.get(this.getFilenameKey(src));
+
+                  return {
+                    src,
+                    title: savedMetadata?.title || this.formatGalleryTitle(file.name),
+                    text: savedMetadata?.text || ''
+                  };
+                })
+                .sort((a, b) => a.title.localeCompare(b.title, 'es'));
+            } catch (error) {
+              return [];
+            }
           },
           normalizeImages(images) {
             return images
@@ -260,6 +296,9 @@
                 title: image.title || this.formatGalleryTitle(image.src),
                 text: image.text || ''
               }));
+          },
+          getFilenameKey(src) {
+            return decodeURIComponent(src).split('/').pop().toLowerCase();
           },
           formatGalleryTitle(src) {
             const filename = decodeURIComponent(src).split('/').pop().replace(/\.[^.]+$/, '');

@@ -2,7 +2,11 @@
 
 Esta carpeta contiene las imágenes que se muestran en `gallery.html`.
 
-GitHub Pages no ejecuta PHP, así que cada imagen publicada debe agregarse también en `gallery.json`:
+En GitHub Pages, la página lee automáticamente esta carpeta desde la API pública de GitHub.
+
+Para mostrar una imagen nueva, subila a esta carpeta en la rama `main`.
+
+`gallery.json` es opcional y sirve para personalizar títulos o descripciones:
 
 ```json
 {
