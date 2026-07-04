@@ -12,16 +12,34 @@ Sitio estático de Para-Mesh preparado para publicarse en GitHub Pages.
 
 ## Probar en local
 
-Sirve la carpeta con un servidor local:
+Instala dependencias:
 
 ```bash
-python -m http.server 8080
+npm install
 ```
 
-Luego abre:
+Levanta Vite en modo desarrollo:
+
+```bash
+npm run dev
+```
+
+Compila producción:
+
+```bash
+npm run build
+```
+
+Previsualiza el build:
+
+```bash
+npm run preview
+```
+
+La URL local usa la misma base que GitHub Pages:
 
 ```text
-http://localhost:8080
+http://127.0.0.1:5173/para-mesh-landing/
 ```
 
 Evita abrir `gallery.html` directamente con doble clic, porque la galería carga datos con `fetch` y necesita un servidor.
@@ -31,8 +49,8 @@ Evita abrir `gallery.html` directamente con doble clic, porque la galería carga
 1. Crea un repositorio en GitHub.
 2. Sube todos los archivos de este proyecto a la rama `main`.
 3. En GitHub, ve a `Settings` -> `Pages`.
-4. En `Build and deployment`, elige `Deploy from a branch`.
-5. Selecciona la rama `main` y la carpeta `/root`.
+4. En `Build and deployment`, elige `GitHub Actions`.
+5. El workflow `.github/workflows/pages.yml` compila Vite y publica `dist`.
 
 Con esa configuración, GitHub Pages publica el sitio automáticamente en cada push a `main`.
 

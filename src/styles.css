@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(47, 115, 255, .22), transparent 35%),
+    radial-gradient(circle at 90% 10%, rgba(87, 199, 255, .14), transparent 32%),
+    linear-gradient(180deg, #07101f 0%, #050914 62%, #03050b 100%);
+}
+
+.mesh-bg {
+  background-image:
+    linear-gradient(rgba(92, 139, 255, .08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(92, 139, 255, .08) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: radial-gradient(circle at center, black 0%, transparent 72%);
+}
+
+.topo {
+  background-image: url("data:image/svg+xml,%3Csvg width='900' height='320' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%232f73ff' stroke-opacity='.20'%3E%3Cpath d='M0 240 C120 170 190 310 330 230 S560 80 760 190 S980 300 1100 110'/%3E%3Cpath d='M0 200 C130 130 210 270 350 190 S570 45 780 150 S985 265 1120 72'/%3E%3Cpath d='M0 280 C140 210 230 345 380 250 S610 110 810 230 S1010 335 1130 160'/%3E%3Cpath d='M0 150 C160 90 250 220 410 145 S640 5 850 115 S1040 235 1160 30'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: cover;
+}
+
+[v-cloak] {
+  display: none;
+}
