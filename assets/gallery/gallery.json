@@ -1,0 +1,42 @@
+[
+  {
+    "src": "assets/gallery/02c050f8-d58d-414f-bc33-2d92d1d01b3e.png",
+    "title": "Modelo paramétrico 01",
+    "text": "Pieza creada con Para-Mesh."
+  },
+  {
+    "src": "assets/gallery/58c4f94c-c3bf-426b-9aab-8115ea7e7727.png",
+    "title": "Modelo paramétrico 02",
+    "text": "Exploración de forma para impresión 3D."
+  },
+  {
+    "src": "assets/gallery/aab3b643-2abb-4a15-b2be-b9b93a5e1014.png",
+    "title": "Modelo paramétrico 03",
+    "text": "Variación decorativa generada con controles paramétricos."
+  },
+  {
+    "src": "assets/gallery/ChatGPT%20Image%204%20jul%202026%2C%2017_00_57.png",
+    "title": "Concepto visual Para-Mesh",
+    "text": "Imagen de referencia para la galería pública."
+  },
+  {
+    "src": "assets/gallery/dca83273-fc1d-413b-8ee6-e16f5743f876.png",
+    "title": "Modelo paramétrico 04",
+    "text": "Prueba visual de pieza decorativa."
+  },
+  {
+    "src": "assets/gallery/diagonal-vase.png",
+    "title": "Vaso diagonal",
+    "text": "Ranuras y corte visual en minutos."
+  },
+  {
+    "src": "assets/gallery/heightmap-vase.png",
+    "title": "Relieve compuesto",
+    "text": "Múltiples heightmaps apilables."
+  },
+  {
+    "src": "assets/gallery/spline-sweep-pot.png",
+    "title": "Maceta raíz",
+    "text": "Forma orgánica con barrido por spline."
+  }
+]
